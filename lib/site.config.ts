@@ -83,16 +83,15 @@ export const siteConfig = {
   ads: {
     /**
      * AdSense client ID — read from NEXT_PUBLIC_ADSENSE_CLIENT_ID env var.
-     * When set, ad slots become visible and the AdSense head script is injected.
+     * When set, the AdSense head script is injected on every page.
      */
     clientId: process.env.NEXT_PUBLIC_ADSENSE_CLIENT_ID || "",
 
     /**
-     * Whether ads are enabled. Derived automatically from clientId presence.
+     * Whether ad placement slots are rendered on the page.
+     * Keep false until you're ready to show real ads and have set clientId.
      */
-    get enabled(): boolean {
-      return !!this.clientId;
-    },
+    enabled: false,
   },
 
   analytics: {
