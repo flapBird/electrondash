@@ -1,0 +1,99 @@
+/**
+ * Site configuration — the single source of truth for the entire game site.
+ * When creating a new game site, only edit this file and replace images in /public.
+ */
+export const siteConfig = {
+  /** Display name shown in header, footer, and browser title. */
+  siteName: "Electron Dash",
+
+  /** Canonical domain, no trailing slash. Used for sitemap, OG URLs, etc. */
+  domain: "https://electrondash.site",
+
+  seo: {
+    /** Homepage <title>. Used as-is on the homepage. */
+    title: "Play Electron Dash Online Free | Electron Dash",
+
+    /**
+     * Homepage meta description, keep under 160 characters.
+     * Describe what the game is and that it's free to play online.
+     */
+    description:
+      "Play Electron Dash, a free online reflex game. Navigate a glowing electron through a neon obstacle course at electrondash.site — no download required.",
+
+    /** Comma-separated keywords for the homepage. */
+    keywords: ["electron dash", "electron dash game", "play electron dash", "electron dash online", "free reflex game", "neon endless runner", "coolmath games", "browser game"],
+
+    /** Social sharing image, 1200x630px. Replace /public/og-image.png. */
+    ogImage: "/og-image.png",
+
+    /** Twitter/X handle, can be left empty. */
+    twitterHandle: "",
+  },
+
+  game: {
+    /** Name of the game, shown in Hero, JSON-LD, etc. */
+    name: "Electron Dash",
+
+    /** Genre(s) for JSON-LD VideoGame.genre. e.g. ["Sports", "Basketball"]. */
+    genre: ["Arcade", "Action", "Endless Runner"],
+
+    /** iframe embed URL — must be manually replaced with the real embeddable URL. */
+    embedUrl: "https://onegamez.github.io/electro-dash",
+
+    /** Aspect ratio of the embedded game, used to prevent CLS. */
+    aspectRatio: "16 / 9",
+
+    /** Cover image shown on the idle/launch screen. Replace /public/cover.jpg. */
+    coverImage: "/electrondash-cover.jpeg",
+
+    /** Age rating for the game. */
+    ageRating: "Everyone",
+
+    /** Attribution displayed below the game and in the footer. */
+    sourceAttribution: "Game by Coolmath Games",
+
+    /** YouTube video ID for the gameplay trailer / walkthrough. Leave empty to hide the video section. */
+    youtubeVideoId: "gpKUKoEQZOE",
+  },
+
+  theme: {
+    /**
+     * Bright & playful color palette.
+     * Adjust per-game to match its visual style, but keep the overall bright tone.
+     */
+    primary: "#0e7490",
+    secondary: "#6366f1",
+    background: "#f0f6fc",
+    surface: "#e2ecf5",
+    textDark: "#0f172a",
+    fontHeading: "'Nunito', sans-serif",
+    fontBody: "'Quicksand', sans-serif",
+  },
+
+  contact: {
+    /** Contact email shown on /contact and in legal pages. */
+    email: "hello@electrondash.site",
+  },
+
+  legal: {
+    /** Last updated date for Privacy / Terms pages. */
+    lastUpdated: "2026-07-10",
+  },
+
+  ads: {
+    /**
+     * Keep false until AdSense is approved and real ad code is added.
+     * When true, sidebar and rectangle ad slots appear on the page.
+     */
+    enabled: false,
+  },
+
+  analytics: {
+    /** Google Analytics 4 measurement ID, e.g. G-XXXXXXXX. Leave empty to skip GA. */
+    gaId: "",
+    /** Google Search Console verification code. Leave empty to skip. */
+    gscVerification: "",
+  },
+} as const;
+
+export type SiteConfig = typeof siteConfig;
