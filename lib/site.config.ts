@@ -82,18 +82,25 @@ export const siteConfig = {
 
   ads: {
     /**
-     * Keep false until AdSense is approved and real ad code is added.
-     * When true, sidebar and rectangle ad slots appear on the page.
+     * AdSense client ID — read from NEXT_PUBLIC_ADSENSE_CLIENT_ID env var.
+     * When set, ad slots become visible and the AdSense head script is injected.
      */
-    enabled: false,
+    clientId: process.env.NEXT_PUBLIC_ADSENSE_CLIENT_ID || "",
+
+    /**
+     * Whether ads are enabled. Derived automatically from clientId presence.
+     */
+    get enabled(): boolean {
+      return !!this.clientId;
+    },
   },
 
   analytics: {
-    /** Google Analytics 4 measurement ID, e.g. G-XXXXXXXX. Leave empty to skip GA. */
-    gaId: "",
+    /** Google Analytics 4 measurement ID — read from NEXT_PUBLIC_GA_ID env var. Leave empty to skip GA. */
+    gaId: process.env.NEXT_PUBLIC_GA_ID || "",
     /** Google Search Console verification code. Leave empty to skip. */
     gscVerification: "",
   },
-} as const;
+};
 
 export type SiteConfig = typeof siteConfig;

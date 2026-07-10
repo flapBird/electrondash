@@ -50,6 +50,16 @@ export default function RootLayout({
             </Script>
           </>
         )}
+
+        {/* Google AdSense — only injected when clientId is set */}
+        {siteConfig.ads.clientId && (
+          <Script
+            async
+            src={`https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=${siteConfig.ads.clientId}`}
+            crossOrigin="anonymous"
+            strategy="afterInteractive"
+          />
+        )}
       </body>
     </html>
   );
