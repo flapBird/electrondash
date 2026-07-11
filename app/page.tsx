@@ -12,7 +12,7 @@ export default function HomePage() {
   return (
     <>
       <SchemaMarkup jsonLd={buildVideoGameJsonLd()} />
-      <Hero />
+      <h1 className="sr-only">Play Electron Dash Online - Free Reflex Game</h1>      <Hero />
       <SidebarLayout>
         {/* Game content sections */}
         <article className="space-y-12">
@@ -25,13 +25,20 @@ export default function HomePage() {
               Here's the deal: you're an electron trapped inside a cylindrical tunnel, and the 
               ground beneath you is falling apart — literally. Not slowly, either. You've got to 
               keep climbing upward, rotate left and right around the tube to find solid ledges, 
-              and jump onto the next platform before the one you're standing on crumbles away.
+              and jump onto the next platform before the one you're standing on crumbles away. That's Electron Dash in a nutshell — a reflex game that cuts straight to the chase, no tutorials or hand-holding required.
            </p>
            <p className="text-text-dark/70 leading-relaxed">
               No story, no inventory, no upgrades — none of that. Just you, a neon-lit 3D tunnel, 
               and an endless upward climb that gets faster and meaner the longer you survive. 
-              It's a free online reflex game that cuts straight to the chase: one bad jump and 
-              you're done, but that's exactly what makes hitting a new high score feel so good.
+              One bad jump and 
+              you're done, but that's exactly what makes hitting a new high score feel so good. Electron Dash strips gaming down to its simplest form: reaction time, spatial awareness, and steady nerves.
+           </p>
+           <p className="text-text-dark/70 leading-relaxed">
+              If you've played electron dash on Math Playground before, you already know how
+              addictive this formula is. The same fast-paced action you remember is exactly what
+              you'll find here — quick rounds, clean controls, and that "one more try" pull that
+              keeps you coming back. Whether you search for math playground electron dash or just
+              electron dash, it's the same great game, still free and ready to play.
            </p>
           </section>
 
@@ -102,7 +109,7 @@ export default function HomePage() {
                   <strong className="text-text-dark">Neon Cyber Aesthetic</strong>
                   <span className="text-text-dark/70">
                     &nbsp;&mdash; A sleek, glowing circuit-board world with vibrant colors and 
-                    smooth animations that make every run feel electric.
+                    smooth animations that make every run feel electric and immersive.
                   </span>
                 </div>
               </li>
@@ -112,7 +119,7 @@ export default function HomePage() {
                   <strong className="text-text-dark">360&deg; Movement</strong>
                  <span className="text-text-dark/70">
                     &nbsp;&mdash; Rotate around the full circumference of the tube to find safe 
-                    ledges. You're not stuck on a flat track — every angle is a possible path up.
+                    ledges. You're not stuck on a flat track — every angle is a possible path up. This 360-degree movement is what sets Electron Dash apart from simpler endless runners.
                  </span>
                </div>
              </li>
@@ -144,7 +151,7 @@ export default function HomePage() {
                   <strong className="text-text-dark">Free &amp; Browser-Based</strong>
                   <span className="text-text-dark/70">
                     &nbsp;&mdash; No download, no sign-up, no paywall. Open electrondash.site in 
-                    any modern browser and start playing Electron Dash instantly.
+                    any modern browser and start playing Electron Dash instantly. Like the version on Math Playground, it runs right in your browser with nothing to install.
                   </span>
                 </div>
               </li>
@@ -174,7 +181,7 @@ export default function HomePage() {
                   You're inside a cylindrical tunnel, climbing upward automatically. Use the 
                   left/right controls to rotate around the tube, line up with a platform, and 
                   jump onto it before the floor crumbles beneath you. Miss the jump and you fall 
-                  into the void — simple premise, but it gets hectic fast.
+                  into the void — simple premise, but it gets hectic fast. This core loop is what makes electron dash such a staple on game sites like Math Playground — easy to understand, hard to put down.
                </p>
               </div>
               <div>
@@ -183,7 +190,7 @@ export default function HomePage() {
                 </h3>
                 <p className="text-text-dark/70 leading-relaxed">
                   Yep, completely free. No hidden costs, no subscriptions, no download required. 
-                  Just open your browser and start playing.
+                  Just open your browser and start playing. Electron Dash gives you the full experience from the very first jump — no upgrades to buy, no levels locked behind a paywall.
                 </p>
               </div>
               <div>
@@ -203,7 +210,7 @@ export default function HomePage() {
                <p className="text-text-dark/70 leading-relaxed">
                   On desktop, use the left/right arrow keys (or A/D) to rotate around the tube, 
                   and the up arrow or spacebar to jump. On mobile, tap left or right 
-                  to rotate, then tap the screen to jump. Two actions, that's everything.
+                  to rotate, then tap the screen to jump. Two actions, that's everything. The controls are simple enough that anyone can play within seconds, but mastering the timing is what separates good runs from great ones.
                </p>
               </div>
               <div>
@@ -223,7 +230,7 @@ export default function HomePage() {
                 <p className="text-text-dark/70 leading-relaxed">
                   No levels or modes &mdash; it's an endless runner, so every round is procedurally 
                   generated and different from the last. The only goal is to survive as long as 
-                  you can and rack up the highest score possible.
+                  you can and rack up the highest score possible. This endless format is a big reason why electron dash is so popular on Math Playground — no two runs feel the same, so it never gets old.
                 </p>
               </div>
               <div>
@@ -234,7 +241,7 @@ export default function HomePage() {
                   Keep your eyes moving around the full circle of the tube. The next safe platform 
                   could be anywhere. Try to plan your next move while you're still on solid ground 
                   — once the floor starts crumbling, you're out of time. And seriously, don't 
-                  spam the jump button. One precise jump beats five panicked ones.
+                  spam the jump button. One precise jump beats five panicked ones. The highest scorers aren't the fastest clickers — they're the ones who stay cool under pressure.
                </p>
               </div>
               <div>
@@ -245,6 +252,17 @@ export default function HomePage() {
                   Miss a platform and you fall — that's game over. Your final height and score 
                   pop up, and you can restart immediately with one tap. No waiting, no penalties, 
                   just another shot at beating your record.
+               </p>
+              </div>
+              <div>
+               <h3 className="font-heading font-semibold text-lg text-text-dark mb-1">
+                 Where can I play Electron Dash?
+               </h3>
+               <p className="text-text-dark/70 leading-relaxed">
+                  You can play Electron Dash right here on electrondash.site. It's also available
+                  on sites like Math Playground. Whether you search for electron dash math playground
+                  or come here directly, the gameplay is exactly the same — free, fast, and ready
+                  whenever you are.
                </p>
               </div>
            </div>
