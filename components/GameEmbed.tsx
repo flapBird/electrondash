@@ -60,10 +60,9 @@ export default function GameEmbed() {
         className="relative w-full rounded-xl2 overflow-hidden shadow-lg bg-gray-100"
         style={{ aspectRatio }}
       >
-        {/* ── Idle: Launch screen ── */}
-        {state === "idle" && (
-          <div className="absolute inset-0 flex items-center justify-center">
-            {/* Blurred background */}
+        {/* ── Background + overlay — shown from idle through loading ── */}
+        {state !== "playing" && (
+          <>
             <div
               className="absolute inset-0 bg-cover bg-center scale-110"
               style={{
@@ -74,7 +73,12 @@ export default function GameEmbed() {
 
             {/* Dark overlay */}
             <div className="absolute inset-0 bg-black/45" />
+          </>
+        )}
 
+        {/* ── Idle: Play button ── */}
+        {state === "idle" && (
+          <div className="absolute inset-0 flex items-center justify-center">
             {/* Play button */}
             <button
               onClick={() => setState("loading")}
@@ -92,11 +96,11 @@ export default function GameEmbed() {
           </div>
         )}
 
-        {/* ── Loading: Spinner ── */}
+        {/* ── Loading: Spinner on top of background ── */}
         {state === "loading" && (
-          <div className="absolute inset-0 bg-gray-100 flex flex-col items-center justify-center gap-4">
-            <div className="w-12 h-12 border-4 border-primary/30 border-t-primary rounded-full animate-spin" />
-            <p className="text-text-dark/50 text-sm font-medium">
+          <div className="absolute inset-0 flex flex-col items-center justify-center gap-4 z-20">
+            <div className="w-12 h-12 border-4 border-white/30 border-t-white rounded-full animate-spin" />
+            <p className="text-white/70 text-sm font-medium">
               Loading {siteConfig.game.name}...
             </p>
           </div>
