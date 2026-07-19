@@ -72,7 +72,7 @@ export const siteConfig = {
 
   contact: {
     /** Contact email shown on /contact and in legal pages. */
-    email: "hello@electrondash.site",
+    email: "contact@electrondash.site",
   },
 
   legal: {
