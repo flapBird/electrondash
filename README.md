@@ -1,117 +1,88 @@
-# Game Site Template
+# Electrondash
 
-A reusable Next.js 14 template for building single-game "shell" sites optimized for search engine traffic. Each new game site only requires editing one config file and swapping a few images.
+[**electrondash.site**](https://electrondash.site/) — a single-page game site for *Electron Dash*, built with Next.js.
 
-## Quick Start (5 Minutes)
+## About
 
-### 1. Create a new repo from this template
+Electrondash is a dedicated game website centered around a single game: Electron Dash. It embeds the game via iframe and provides supporting content — how to play, controls, features, FAQs, and a gameplay video — all in one clean page.
 
-- On GitHub, click **Use this template** → **Create a new repository**
-- Clone your new repo locally
+The project was originally scaffolded from a generic game-site template and customized to fit the specific game.
 
-### 2. Configure your site
+## Game
 
-Edit **`lib/site.config.ts`** — this is the only file you need to touch for content:
+**Electron Dash** is a reflex-based endless runner. You control an electron climbing upward through a cylindrical 3D tunnel. The platform beneath you crumbles after a few seconds, so you have to rotate left and right around the tube, find the next solid ledge, and jump — all while the speed keeps climbing. No levels, no power-ups, just you and the void.
 
-| Field | What to change |
-|-------|----------------|
-| `siteName` | Your site's display name |
-| `domain` | Full domain, e.g. `https://mygame.com` (no trailing slash) |
-| `seo.title` | Homepage `<title>` tag |
-| `seo.description` | Meta description (keep under 160 chars) |
-| `seo.keywords` | Comma-separated keyword list |
-| `game.name` | The game's name |
-| `game.genre` | Genre array for JSON-LD, e.g. `["Sports", "Basketball"]` |
-| `game.embedUrl` | The real iframe embed URL — must be replaced |
-| `game.aspectRatio` | Aspect ratio of the game (default `"16 / 9"`) |
-| `game.ageRating` | Age rating label |
-| `game.sourceAttribution` | Developer credit line |
-| `contact.email` | Your contact email |
-| `legal.lastUpdated` | Date the legal pages were last reviewed |
+- [Play the game](https://electrondash.site/)
+- Controls: arrow keys (or A/D) to rotate, Up/Space to jump
+- Touch: tap left/right to rotate, tap to jump
 
-### 3. Replace placeholder images
+## Tech stack
 
-Replace these files in `public/`:
+- **Framework**: Next.js 14 (App Router)
+- **Language**: TypeScript
+- **Styling**: Tailwind CSS
+- **Fonts**: Nunito (headings) + Quicksand (body), served via next/font
+- **Deployment**: Static export, ready for Vercel or any static host
 
-- `cover.jpg` — Game cover / launch screen image
-- `og-image.png` — Social sharing image (1200×630px)
-- `favicon.ico` — Browser tab icon
+## Project structure
 
-### 4. Customize page content
+```
+app/
+  layout.tsx         # Root layout with fonts, GA, AdSense scripts
+  page.tsx           # Homepage: game embed + intro, how-to, features, FAQ, video
+  globals.css        # Global styles, hero gradient, blob animations
+  about/page.tsx     # About page
+  contact/page.tsx   # Contact page
+  privacy/page.tsx   # Privacy Policy
+  terms/page.tsx     # Terms & Conditions
+  robots.ts          # robots.txt
+  sitemap.ts         # sitemap.xml
 
-Look for `PLACEHOLDER:` markers in:
-- `app/page.tsx` — Game introduction sections
-- `app/about/page.tsx` — About page
+components/
+  Header.tsx         # Sticky header with logo + site name
+  Hero.tsx           # Game embed section with gradient background
+  GameEmbed.tsx      # iframe wrapper with idle/loading/playing states, action toolbar
+  Footer.tsx         # Site footer with nav links
+  SidebarLayout.tsx  # Content layout container with optional ad sidebars
+  AdSlot.tsx         # Ad placement placeholder
+  SchemaMarkup.tsx   # JSON-LD script tag helper
+  LegalPage.tsx      # Reusable template for privacy/terms pages
 
-Always write unique content per game site to avoid duplicate-content penalties.
+lib/
+  site.config.ts     # Centralized site config (reads env vars for GA, AdSense)
+  seo.ts             # Metadata builder + VideoGame JSON-LD builder
+```
 
-### 5. Run locally
+## Configuration
+
+All site content lives in `lib/site.config.ts` — game name, embed URL, theme colors, contact info, etc.
+
+Sensitive values (Google Analytics ID, AdSense client ID) are read from environment variables:
+
+```bash
+NEXT_PUBLIC_GA_ID=G-XXXXXXXXXX
+NEXT_PUBLIC_ADSENSE_CLIENT_ID=ca-pub-XXXXXXXXXXXXXXXX
+```
+
+See `.env.example` for the reference.
+
+## Running locally
 
 ```bash
 npm install
 npm run dev
 ```
 
-Open [http://localhost:3000](http://localhost:3000) to preview.
+Open [http://localhost:3000](http://localhost:3000).
 
-### 6. Deploy to Vercel
+To build for production:
 
-**Recommended (GitHub integration):**
-1. In Vercel, click **New Project** → import your repo
-2. Framework Preset auto-detects Next.js — leave defaults
-3. Add environment variables from `.env.example` if needed
-4. Under **Domains**, bind your domain
-5. Deploy
-
-**CLI alternative:**
 ```bash
-npm i -g vercel
-vercel login
-vercel
-vercel --prod
+npm run build
 ```
 
-### 7. Submit to Google Search Console
+The output is fully static and can be deployed to any static host or Vercel.
 
-1. Go to [Google Search Console](https://search.google.com/search-console)
-2. Add property using domain verification
-3. Submit `sitemap.xml` (e.g. `https://your-domain.com/sitemap.xml`)
+## License
 
----
-
-## SEO Checklist
-
-- [ ] Every page has a unique `<title>` in the correct format
-- [ ] Every page `description` is under 160 characters and unique
-- [ ] Every page has a canonical URL
-- [ ] Open Graph / Twitter Card tags verified (use [opengraph.xyz](https://www.opengraph.xyz/))
-- [ ] Homepage `VideoGame` JSON-LD passes [Rich Results Test](https://search.google.com/test/rich-results)
-- [ ] `sitemap.xml` and `robots.txt` are accessible
-- [ ] Lighthouse mobile performance score ≥ 80
-- [ ] Mobile: game starts on tap, no horizontal scroll
-- [ ] All placeholder images replaced with real assets
-- [ ] Google Search Console verified and sitemap submitted
-
-## AdSense (Post-Launch)
-
-1. Keep `ads.enabled: false` until AdSense is approved
-2. Site should have 2+ weeks of stable traffic before applying
-3. Ensure Privacy Policy and Terms pages are accessible
-4. After approval:
-   - Replace placeholder in `components/AdSlot.tsx` with real `<ins class="adsbygoogle">`
-   - Set `ads.enabled: true` in `lib/site.config.ts`
-
-## Tech Stack
-
-- Next.js 14 (App Router)
-- TypeScript
-- Tailwind CSS
-- Google Fonts (Nunito + Quicksand)
-- Vercel deployment
-
-## Notes
-
-- This template supports iframe-embedded games only (no SWF/Ruffle)
-- English only; all copy is centralized in `lib/site.config.ts` for future i18n
-- Ad slots are placeholder only by default; real AdSense code must be added post-approval
-- Always verify iframe embed permissions with the game developer and maintain visible source attribution
+MIT
