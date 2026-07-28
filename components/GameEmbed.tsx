@@ -4,207 +4,182 @@ import { useState, useEffect, useRef } from "react";
 import { siteConfig } from "@/lib/site.config";
 
 export default function GameEmbed() {
-  const [state, setState] = useState<"idle" | "loading" | "playing">("idle");
-  const [liked, setLiked] = useState(false);
-  const [disliked, setDisliked] = useState(false);
+  const [state, setState] = useState<
+    "idle" | "loading" | "playing" | "error"
+  >("idle");
   const [refreshKey, setRefreshKey] = useState(0);
   const containerRef = useRef<HTMLDivElement>(null);
 
-  // Load persisted like / favorite state
   useEffect(() => {
-    setLiked(localStorage.getItem("ed_liked") === "true");
-    setDisliked(localStorage.getItem("ed_disliked") === "true");
-  }, []);
+    if (state !== "loading") return;
 
-  // Simulate a brief loading window before showing the iframe
-  useEffect(() => {
-    if (state === "loading") {
-      const timer = setTimeout(() => setState("playing"), 600);
-      return () => clearTimeout(timer);
-    }
+    const timer = window.setTimeout(() => setState("error"), 15000);
+    return () => window.clearTimeout(timer);
   }, [state]);
 
   const aspectRatio = siteConfig.game.aspectRatio;
 
-  const handleLike = () => {
-    const next = !liked;
-    setLiked(next);
-    localStorage.setItem("ed_liked", String(next));
-  };
-
-  const handleDislike = () => {
-    const next = !disliked;
-    setDisliked(next);
-    localStorage.setItem("ed_disliked", String(next));
+  const startGame = () => {
+    setState("loading");
+    setRefreshKey((key) => key + 1);
   };
 
   const handleReload = () => {
-    setRefreshKey((k) => k + 1);
+    startGame();
   };
 
   const handleFullscreen = () => {
     const el = containerRef.current;
     if (!el) return;
+
     if (document.fullscreenElement) {
-      document.exitFullscreen();
+      void document.exitFullscreen();
     } else {
-      el.requestFullscreen();
+      void el.requestFullscreen().catch(() => {
+        // Some mobile browsers do not expose the Fullscreen API.
+      });
     }
   };
 
   return (
-    <div className="w-full max-w-4xl mx-auto">
-      {/* Fixed-aspect container to prevent CLS */}
+    <div className="mx-auto w-full max-w-4xl rounded-[1.4rem] border border-cyan-300/45 bg-slate-950 p-1.5 shadow-[0_0_0_1px_rgba(8,145,178,0.18),0_24px_70px_rgba(2,6,23,0.72),0_0_42px_rgba(34,211,238,0.12)] sm:rounded-[2rem] sm:p-2.5">
       <div
         ref={containerRef}
-        className="relative w-full rounded-xl2 overflow-hidden shadow-lg bg-gray-100"
+        className="relative w-full overflow-hidden rounded-[1rem] border border-white/20 bg-black sm:rounded-[1.4rem]"
         style={{ aspectRatio }}
       >
-        {/* ── Background + overlay — shown from idle through loading ── */}
+        {(state === "loading" || state === "playing") && (
+          <iframe
+            key={refreshKey}
+            src={siteConfig.game.embedUrl}
+            className="absolute inset-0 h-full w-full"
+            allow="autoplay; fullscreen"
+            sandbox="allow-scripts allow-same-origin allow-forms allow-popups"
+            referrerPolicy="strict-origin-when-cross-origin"
+            title={`${siteConfig.game.name} game`}
+            onLoad={() => setState("playing")}
+          />
+        )}
+
         {state !== "playing" && (
           <>
             <div
-              className="absolute inset-0 bg-cover bg-center scale-110"
+              className="absolute inset-0 scale-105 bg-cover bg-center"
               style={{
                 backgroundImage: `url(${siteConfig.game.coverImage})`,
-                filter: "blur(12px)",
               }}
             />
-
-            {/* Dark overlay */}
-            <div className="absolute inset-0 bg-black/45" />
+            <div className="absolute inset-0 bg-slate-950/60" />
           </>
         )}
 
-        {/* ── Idle: Play button ── */}
         {state === "idle" && (
-          <div className="absolute inset-0 flex items-center justify-center">
-            {/* Play button */}
+          <div className="absolute inset-0 flex flex-col items-center justify-center gap-3">
             <button
-              onClick={() => setState("loading")}
-              className="btn-play relative z-10 bg-primary hover:bg-primary/90 text-white font-heading font-bold text-xl px-10 py-4 rounded-full shadow-xl flex items-center gap-2"
+              onClick={startGame}
+              className="btn-play relative z-10 flex items-center gap-2 rounded-full bg-cyan-500 px-7 py-3 font-heading text-base font-bold text-slate-950 shadow-xl shadow-cyan-950/40 hover:bg-cyan-300 sm:px-10 sm:py-4 sm:text-xl"
             >
               <svg
-                className="w-6 h-6"
+                className="h-5 w-5 sm:h-6 sm:w-6"
                 fill="currentColor"
                 viewBox="0 0 24 24"
+                aria-hidden="true"
               >
                 <path d="M8 5v14l11-7z" />
               </svg>
-              Play Now
+              Start Electron Dash
             </button>
+            <span className="relative z-10 hidden text-sm text-white/70 sm:block">
+              The game opens inside this page
+            </span>
           </div>
         )}
 
-        {/* ── Loading: Spinner on top of background ── */}
         {state === "loading" && (
-          <div className="absolute inset-0 flex flex-col items-center justify-center gap-4 z-20">
-            <div className="w-12 h-12 border-4 border-white/30 border-t-white rounded-full animate-spin" />
-            <p className="text-white/70 text-sm font-medium">
+          <div
+            className="absolute inset-0 z-20 flex flex-col items-center justify-center gap-4"
+            role="status"
+            aria-live="polite"
+          >
+            <div className="h-10 w-10 animate-spin rounded-full border-4 border-white/30 border-t-cyan-300 sm:h-12 sm:w-12" />
+            <p className="text-sm font-medium text-white/80">
               Loading {siteConfig.game.name}...
             </p>
           </div>
         )}
 
-        {/* ── Playing: iframe ── */}
-        {state === "playing" && (
-          <>
-            <iframe
-              key={refreshKey}
-              src={siteConfig.game.embedUrl}
-              className="absolute inset-0 w-full h-full"
-              allow="autoplay; fullscreen"
-              sandbox="allow-scripts allow-same-origin allow-forms allow-popups"
-              title={siteConfig.game.name}
-              loading="lazy"
-            />
-          </>
+        {state === "error" && (
+          <div
+            className="absolute inset-0 z-20 flex flex-col items-center justify-center gap-3 px-6 text-center"
+            role="alert"
+          >
+            <p className="font-heading text-lg font-bold text-white">
+              The game took too long to load
+            </p>
+            <p className="max-w-sm text-sm text-white/70">
+              Check your connection and try again. Some privacy extensions may
+              also block third-party games.
+            </p>
+            <button
+              onClick={startGame}
+              className="mt-1 rounded-full bg-white px-5 py-2 text-sm font-bold text-slate-900 hover:bg-cyan-100"
+            >
+              Try again
+            </button>
+          </div>
         )}
 
-        {/* Bottom-right action toolbar — always visible */}
-        <div className="absolute bottom-3 right-3 z-30 flex items-center gap-2">
-          {/* Like */}
-          <button
-            onClick={handleLike}
-            className="w-10 h-10 rounded-lg flex items-center justify-center bg-black/40 hover:bg-black/60 text-white backdrop-blur-sm transition-colors"
-            title="Like"
+        {state === "playing" && (
+          <div
+            className="absolute bottom-2 right-2 z-30 flex items-center gap-1.5 sm:bottom-3 sm:right-3 sm:gap-2"
+            aria-label="Game controls"
+            role="group"
           >
-            <svg
-              className="w-5 h-5"
-              viewBox="0 0 24 24"
-              fill={liked ? "currentColor" : "none"}
-              stroke="currentColor"
-              strokeWidth="2"
-              strokeLinecap="round"
-              strokeLinejoin="round"
+            <button
+              onClick={handleReload}
+              className="game-tool-button"
+              aria-label="Reload game"
+              title="Reload game"
             >
-              <path d="M14 9V5a3 3 0 0 0-3-3l-4 9v11h11.28a2 2 0 0 0 2-1.7l1.38-9a2 2 0 0 0-2-2.3H14z" />
-              <path d="M7 22H4a2 2 0 0 1-2-2v-7a2 2 0 0 1 2-2h3" />
-            </svg>
-          </button>
+              <svg
+                className="h-4 w-4 sm:h-5 sm:w-5"
+                viewBox="0 0 24 24"
+                fill="none"
+                stroke="currentColor"
+                strokeWidth="2"
+                strokeLinecap="round"
+                strokeLinejoin="round"
+                aria-hidden="true"
+              >
+                <polyline points="23 4 23 10 17 10" />
+                <path d="M20.49 15a9 9 0 1 1-2.12-9.36L23 10" />
+              </svg>
+            </button>
 
-          {/* Dislike */}
-          <button
-            onClick={handleDislike}
-            className="w-10 h-10 rounded-lg flex items-center justify-center bg-black/40 hover:bg-black/60 text-white backdrop-blur-sm transition-colors"
-            title="Dislike"
-          >
-            <svg
-              className="w-5 h-5"
-              viewBox="0 0 24 24"
-              fill={disliked ? "currentColor" : "none"}
-              stroke="currentColor"
-              strokeWidth="2"
-              strokeLinecap="round"
-              strokeLinejoin="round"
+            <button
+              onClick={handleFullscreen}
+              className="game-tool-button"
+              aria-label="Enter fullscreen"
+              title="Enter fullscreen"
             >
-              <path d="M10 15v4a3 3 0 0 0 3 3l4-9V2H5.72a2 2 0 0 0-2 1.7l-1.38 9a2 2 0 0 0 2 2.3H10z" />
-              <path d="M17 2h2.67A2.31 2.31 0 0 1 22 4v7a2.31 2.31 0 0 1-2.33 2H17" />
-            </svg>
-          </button>
-
-          {/* Reload */}
-          <button
-            onClick={handleReload}
-            className="w-10 h-10 rounded-lg flex items-center justify-center bg-black/40 hover:bg-black/60 text-white backdrop-blur-sm transition-colors"
-            title="Reload"
-          >
-            <svg
-              className="w-5 h-5"
-              viewBox="0 0 24 24"
-              fill="none"
-              stroke="currentColor"
-              strokeWidth="2"
-              strokeLinecap="round"
-              strokeLinejoin="round"
-            >
-              <polyline points="23 4 23 10 17 10" />
-              <path d="M20.49 15a9 9 0 1 1-2.12-9.36L23 10" />
-            </svg>
-          </button>
-
-          {/* Fullscreen */}
-          <button
-            onClick={handleFullscreen}
-            className="w-10 h-10 rounded-lg flex items-center justify-center bg-black/40 hover:bg-black/60 text-white backdrop-blur-sm transition-colors"
-            title="Fullscreen"
-          >
-            <svg
-              className="w-5 h-5"
-              viewBox="0 0 24 24"
-              fill="none"
-              stroke="currentColor"
-              strokeWidth="2"
-              strokeLinecap="round"
-              strokeLinejoin="round"
-            >
-              <path d="M8 3H5a2 2 0 0 0-2 2v3" />
-              <path d="M21 8V5a2 2 0 0 0-2-2h-3" />
-              <path d="M16 21h3a2 2 0 0 0 2-2v-3" />
-              <path d="M3 16v3a2 2 0 0 0 2 2h3" />
-            </svg>
-          </button>
-        </div>
+              <svg
+                className="h-4 w-4 sm:h-5 sm:w-5"
+                viewBox="0 0 24 24"
+                fill="none"
+                stroke="currentColor"
+                strokeWidth="2"
+                strokeLinecap="round"
+                strokeLinejoin="round"
+                aria-hidden="true"
+              >
+                <path d="M8 3H5a2 2 0 0 0-2 2v3" />
+                <path d="M21 8V5a2 2 0 0 0-2-2h-3" />
+                <path d="M16 21h3a2 2 0 0 0 2-2v-3" />
+                <path d="M3 16v3a2 2 0 0 0 2 2h3" />
+              </svg>
+            </button>
+          </div>
+        )}
       </div>
     </div>
   );

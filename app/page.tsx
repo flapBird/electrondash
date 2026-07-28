@@ -1,4 +1,5 @@
-import { buildMetadata, buildVideoGameJsonLd } from "@/lib/seo";
+import Image from "next/image";
+import { buildFaqJsonLd, buildMetadata, buildVideoGameJsonLd } from "@/lib/seo";
 import { siteConfig } from "@/lib/site.config";
 import Hero from "@/components/Hero";
 import SidebarLayout from "@/components/SidebarLayout";
@@ -7,287 +8,378 @@ import AdSlot from "@/components/AdSlot";
 
 export const metadata = buildMetadata({ path: "/" });
 
+const faqs = [
+  {
+    question: "What is Electron Dash?",
+    answer:
+      "Electron Dash is a fast endless runner set inside a glowing space tunnel. Your runner moves forward automatically while you steer across the floor and walls, jump over gaps, avoid lasers, and collect extra lives.",
+  },
+  {
+    question: "What are the controls for Electron Dash?",
+    answer:
+      "On desktop, use the Left and Right Arrow keys or A and D to move. Press Up, W, or Space to jump. On a phone or tablet, use the left, right, and up arrow buttons shown inside the game.",
+  },
+  {
+    question: "Can you run on the walls?",
+    answer:
+      "Yes. Moving far enough to either side carries your runner onto the tunnel wall. Wall running is useful when the floor ahead has a large gap, but you still need to watch for lasers and missing sections.",
+  },
+  {
+    question: "What do the red hearts do?",
+    answer:
+      "A red heart gives you another life. When a life is used, the runner is briefly protected, giving you a moment to recover and land on a safe part of the tunnel.",
+  },
+  {
+    question: "Is Electron Dash free to play?",
+    answer:
+      "Yes. You can play Electron Dash here in a modern web browser without creating an account or downloading an app.",
+  },
+  {
+    question: "Does Electron Dash work on mobile?",
+    answer:
+      "The game includes touch controls for supported mobile browsers. For the clearest view, rotate your device to landscape and use fullscreen mode after the game loads.",
+  },
+] as const;
+
+const quickFacts = [
+  {
+    label: "Goal",
+    value: "Run as far as possible",
+    icon: "↗",
+  },
+  {
+    label: "Watch for",
+    value: "Gaps, lasers, falling tiles",
+    icon: "⚡",
+  },
+  {
+    label: "Collect",
+    value: "Red hearts for extra lives",
+    icon: "♥",
+  },
+];
 
 export default function HomePage() {
   return (
     <>
       <SchemaMarkup jsonLd={buildVideoGameJsonLd()} />
-      <h1 className="sr-only">Play Electron Dash Online - Free Reflex Game</h1>      <Hero />
+      <SchemaMarkup jsonLd={buildFaqJsonLd(faqs)} />
+      <Hero />
+
       <SidebarLayout>
-        {/* Game content sections */}
-        <article className="space-y-12">
-          {/* ── Game Introduction ── */}
-          <section>
-           <h2 className="font-heading font-bold text-2xl text-text-dark mb-4">
-             About the Game
-           </h2>
-           <p className="text-text-dark/70 leading-relaxed mb-4">
-              Here's the deal: you're an electron trapped inside a cylindrical tunnel, and the 
-              ground beneath you is falling apart — literally. Not slowly, either. You've got to 
-              keep climbing upward, rotate left and right around the tube to find solid ledges, 
-              and jump onto the next platform before the one you're standing on crumbles away. That's Electron Dash in a nutshell — a reflex game that cuts straight to the chase, no tutorials or hand-holding required.
-           </p>
-           <p className="text-text-dark/70 leading-relaxed">
-              No story, no inventory, no upgrades — none of that. Just you, a neon-lit 3D tunnel, 
-              and an endless upward climb that gets faster and meaner the longer you survive. 
-              One bad jump and 
-              you're done, but that's exactly what makes hitting a new high score feel so good. Electron Dash strips gaming down to its simplest form: reaction time, spatial awareness, and steady nerves.
-           </p>
-           <p className="text-text-dark/70 leading-relaxed">
-              If you've played electron dash on Math Playground before, you already know how
-              addictive this formula is. The same fast-paced action you remember is exactly what
-              you'll find here — quick rounds, clean controls, and that "one more try" pull that
-              keeps you coming back. Whether you search for math playground electron dash or just
-              electron dash, it's the same great game, still free and ready to play.
-           </p>
-          </section>
+        <article className="space-y-14 sm:space-y-16">
+          <section aria-labelledby="about-game">
+            <div className="mb-5 flex items-end justify-between gap-4">
+              <div>
+                <p className="mb-2 text-sm font-bold uppercase tracking-[0.16em] text-primary">
+                  Quick overview
+                </p>
+                <h2
+                  id="about-game"
+                  className="font-heading text-3xl font-extrabold tracking-tight text-text-dark"
+                >
+                  What kind of game is Electron Dash?
+                </h2>
+              </div>
+            </div>
 
-          {/* ── Image: Gameplay screenshot ── */}
-          <figure className="my-10">
-            <img
-              src="/electrondash-desc-1.jpeg"
-              alt="Electron Dash gameplay showing the glowing electron dodging neon obstacles in a high-speed circuit-board course"
-              className="w-full rounded-xl shadow-md"
-            />
-          </figure>
+            <div className="space-y-4 text-[1.02rem] leading-8 text-slate-700">
+              <p>
+                Electron Dash is an endless runner built around quick decisions.
+                An intergalactic runner moves forward through a round, neon-lit
+                tunnel while you choose the safest route across the floor and
+                side walls. The run ends when you miss a safe landing and have no
+                lives left.
+              </p>
+              <p>
+                The idea is easy to understand, but the tunnel rarely gives you
+                much time to settle. Open spaces break up the path, light-blue
+                tiles fall after you touch them, and laser beams force sudden
+                changes of direction. Red hearts are worth taking a small risk
+                for because each one adds another life.
+              </p>
+            </div>
 
-          {/* ── How to Play ── */}
-          <section>
-           <h2 className="font-heading font-bold text-2xl text-text-dark mb-4">
-             How to Play
-           </h2>
-           <p className="text-text-dark/70 leading-relaxed mb-4">
-              Your electron climbs upward on its own — you don't control the vertical movement. 
-              What you do control is where you land. Use the left and right controls to rotate 
-              around the tunnel and line yourself up with a solid platform, then jump onto it 
-              before the one you're on gives way.
-           </p>
-           <p className="text-text-dark/70 leading-relaxed">
-              As you climb higher, the platforms shrink and the speed ramps up. Miss a jump or 
-              hesitate too long, and you'll fall into the void. The key is to stay calm, keep 
-              scanning the full circle of the tube, and trust your timing. Panic-jumping is 
-              the fastest way to lose.
-           </p>
-          </section>
-
-          {/* ── Controls Quick Reference ── */}
-          <section className="bg-surface rounded-xl p-6">
-             <h3 className="font-heading font-bold text-lg text-text-dark mb-3">
-               Controls
-             </h3>
-             <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
-               <div className="flex items-center gap-3">
-                 <span className="inline-flex items-center justify-center w-10 h-10 rounded-lg bg-primary/10 text-primary font-bold text-sm">
-                   KB
-                 </span>
-                 <div>
-                   <p className="font-semibold text-text-dark text-sm">Desktop</p>
-                    <p className="text-text-dark/60 text-sm">&larr; &rarr; or A/D to rotate &middot; &uarr; or Space to jump</p>
-                 </div>
-               </div>
-               <div className="flex items-center gap-3">
-                 <span className="inline-flex items-center justify-center w-10 h-10 rounded-lg bg-secondary/10 text-secondary font-bold text-sm">
-                   &#9758;
-                 </span>
-                 <div>
-                   <p className="font-semibold text-text-dark text-sm">Mobile / Tablet</p>
-                    <p className="text-text-dark/60 text-sm">Tap left/right to rotate &middot; tap to jump</p>
-                 </div>
-               </div>
+            <div className="mt-7 grid gap-3 sm:grid-cols-3">
+              {quickFacts.map((fact) => (
+                <div
+                  key={fact.label}
+                  className="rounded-2xl border border-slate-200 bg-white p-5 shadow-sm"
+                >
+                  <span className="flex h-9 w-9 items-center justify-center rounded-xl bg-cyan-50 text-lg font-bold text-primary">
+                    {fact.icon}
+                  </span>
+                  <p className="mt-4 text-xs font-bold uppercase tracking-wider text-slate-500">
+                    {fact.label}
+                  </p>
+                  <p className="mt-1 font-heading font-bold text-slate-900">
+                    {fact.value}
+                  </p>
+                </div>
+              ))}
             </div>
           </section>
 
-          {/* ── Game Features ── */}
-          <section>
-            <h2 className="font-heading font-bold text-2xl text-text-dark mb-4">
-              Game Features
-            </h2>
-            <ul className="space-y-4">
-              <li className="flex gap-3">
-                <span className="text-primary flex-shrink-0 mt-0.5">&raquo;</span>
-                <div>
-                  <strong className="text-text-dark">Neon Cyber Aesthetic</strong>
-                  <span className="text-text-dark/70">
-                    &nbsp;&mdash; A sleek, glowing circuit-board world with vibrant colors and 
-                    smooth animations that make every run feel electric and immersive.
-                  </span>
-                </div>
-              </li>
-             <li className="flex gap-3">
-               <span className="text-primary flex-shrink-0 mt-0.5">&raquo;</span>
-               <div>
-                  <strong className="text-text-dark">360&deg; Movement</strong>
-                 <span className="text-text-dark/70">
-                    &nbsp;&mdash; Rotate around the full circumference of the tube to find safe 
-                    ledges. You're not stuck on a flat track — every angle is a possible path up. This 360-degree movement is what sets Electron Dash apart from simpler endless runners.
-                 </span>
-               </div>
-             </li>
-             <li className="flex gap-3">
-               <span className="text-primary flex-shrink-0 mt-0.5">&raquo;</span>
-               <div>
-                  <strong className="text-text-dark">Collapsing Floor</strong>
-                 <span className="text-text-dark/70">
-                    &nbsp;&mdash; Every platform crumbles after a few seconds. You can't stop and 
-                    think — the ground disappears whether you're ready or not. That urgency is 
-                    what keeps every round tense.
-                 </span>
-               </div>
-             </li>
-              <li className="flex gap-3">
-                <span className="text-primary flex-shrink-0 mt-0.5">&raquo;</span>
-                <div>
-                  <strong className="text-text-dark">High Score Chasing</strong>
-                  <span className="text-text-dark/70">
-                    &nbsp;&mdash; Every run is a shot at beating your personal best. The game 
-                    saves your top score locally, so there's always a target to aim for on your 
-                    next go.
-                  </span>
-                </div>
-              </li>
-              <li className="flex gap-3">
-                <span className="text-primary flex-shrink-0 mt-0.5">&raquo;</span>
-                <div>
-                  <strong className="text-text-dark">Free &amp; Browser-Based</strong>
-                  <span className="text-text-dark/70">
-                    &nbsp;&mdash; No download, no sign-up, no paywall. Open electrondash.site in 
-                    any modern browser and start playing Electron Dash instantly. Like the version on Math Playground, it runs right in your browser with nothing to install.
-                  </span>
-                </div>
-              </li>
-            </ul>
-          </section>
-
-          {/* ── Image: Mobile play ── */}
-          <figure className="my-10">
-            <img
-              src="/electrondash-desc-2.jpeg"
-              alt="Electron Dash being played on a smartphone, showing the touch-friendly lane-switching interface"
-              className="w-full rounded-xl shadow-md"
+          <figure>
+            <Image
+              src="/electrondash-desc-1.jpeg"
+              alt="Electron Dash runner entering a blue grid-lined space tunnel"
+              width={723}
+              height={276}
+              sizes="(max-width: 896px) 100vw, 896px"
+              className="h-auto w-full rounded-2xl border border-slate-200 shadow-lg shadow-slate-300/40"
             />
+            <figcaption className="mt-3 text-center text-sm text-slate-500">
+              The tunnel can be crossed on the floor or along either wall.
+            </figcaption>
           </figure>
 
-          {/* ── FAQ ── */}
-          <section>
-            <h2 className="font-heading font-bold text-2xl text-text-dark mb-4">
-              FAQ
+          <section
+            id="how-to-play"
+            className="scroll-mt-24"
+            aria-labelledby="how-to-play-title"
+          >
+            <p className="mb-2 text-sm font-bold uppercase tracking-[0.16em] text-primary">
+              Getting started
+            </p>
+            <h2
+              id="how-to-play-title"
+              className="font-heading text-3xl font-extrabold tracking-tight text-text-dark"
+            >
+              How to play Electron Dash
             </h2>
-            <div className="space-y-6">
-              <div>
-               <h3 className="font-heading font-semibold text-lg text-text-dark mb-1">
-                 How do you play Electron Dash?
-               </h3>
-               <p className="text-text-dark/70 leading-relaxed">
-                  You're inside a cylindrical tunnel, climbing upward automatically. Use the 
-                  left/right controls to rotate around the tube, line up with a platform, and 
-                  jump onto it before the floor crumbles beneath you. Miss the jump and you fall 
-                  into the void — simple premise, but it gets hectic fast. This core loop is what makes electron dash such a staple on game sites like Math Playground — easy to understand, hard to put down.
-               </p>
-              </div>
-              <div>
-                <h3 className="font-heading font-semibold text-lg text-text-dark mb-1">
-                  Is Electron Dash free to play?
-                </h3>
-                <p className="text-text-dark/70 leading-relaxed">
-                  Yep, completely free. No hidden costs, no subscriptions, no download required. 
-                  Just open your browser and start playing. Electron Dash gives you the full experience from the very first jump — no upgrades to buy, no levels locked behind a paywall.
-                </p>
-              </div>
-              <div>
-               <h3 className="font-heading font-semibold text-lg text-text-dark mb-1">
-                 Can I play Electron Dash on my phone?
-               </h3>
-               <p className="text-text-dark/70 leading-relaxed">
-                  Yep, works great in a mobile browser. Tap the left or right side of the screen 
-                  to rotate around the tube, and tap again to jump. The touch layout is simple 
-                  enough that you can play one-handed.
-               </p>
-              </div>
-              <div>
-               <h3 className="font-heading font-semibold text-lg text-text-dark mb-1">
-                 What are the controls for Electron Dash?
-               </h3>
-               <p className="text-text-dark/70 leading-relaxed">
-                  On desktop, use the left/right arrow keys (or A/D) to rotate around the tube, 
-                  and the up arrow or spacebar to jump. On mobile, tap left or right 
-                  to rotate, then tap the screen to jump. Two actions, that's everything. The controls are simple enough that anyone can play within seconds, but mastering the timing is what separates good runs from great ones.
-               </p>
-              </div>
-              <div>
-                <h3 className="font-heading font-semibold text-lg text-text-dark mb-1">
-                  Is Electron Dash a two-player game?
-                </h3>
-                <p className="text-text-dark/70 leading-relaxed">
-                  Nope, this one's a solo challenge. It's all about beating your own high score. 
-                  That said, it's perfect for passing the phone back and forth to see who can 
-                  last longer.
-                </p>
-              </div>
-              <div>
-                <h3 className="font-heading font-semibold text-lg text-text-dark mb-1">
-                  Does Electron Dash have levels or different game modes?
-                </h3>
-                <p className="text-text-dark/70 leading-relaxed">
-                  No levels or modes &mdash; it's an endless runner, so every round is procedurally 
-                  generated and different from the last. The only goal is to survive as long as 
-                  you can and rack up the highest score possible. This endless format is a big reason why electron dash is so popular on Math Playground — no two runs feel the same, so it never gets old.
-                </p>
-              </div>
-              <div>
-               <h3 className="font-heading font-semibold text-lg text-text-dark mb-1">
-                 Any tips for getting a high score in Electron Dash?
-               </h3>
-               <p className="text-text-dark/70 leading-relaxed">
-                  Keep your eyes moving around the full circle of the tube. The next safe platform 
-                  could be anywhere. Try to plan your next move while you're still on solid ground 
-                  — once the floor starts crumbling, you're out of time. And seriously, don't 
-                  spam the jump button. One precise jump beats five panicked ones. The highest scorers aren't the fastest clickers — they're the ones who stay cool under pressure.
-               </p>
-              </div>
-              <div>
-               <h3 className="font-heading font-semibold text-lg text-text-dark mb-1">
-                 What happens when you hit an obstacle?
-               </h3>
-               <p className="text-text-dark/70 leading-relaxed">
-                  Miss a platform and you fall — that's game over. Your final height and score 
-                  pop up, and you can restart immediately with one tap. No waiting, no penalties, 
-                  just another shot at beating your record.
-               </p>
-              </div>
-              <div>
-               <h3 className="font-heading font-semibold text-lg text-text-dark mb-1">
-                 Where can I play Electron Dash?
-               </h3>
-               <p className="text-text-dark/70 leading-relaxed">
-                  You can play Electron Dash right here on electrondash.site. It's also available
-                  on sites like Math Playground. Whether you search for electron dash math playground
-                  or come here directly, the gameplay is exactly the same — free, fast, and ready
-                  whenever you are.
-               </p>
-              </div>
-           </div>
-         </section>
+            <p className="mt-4 max-w-3xl text-[1.02rem] leading-8 text-slate-700">
+              You do not need to control the runner&apos;s speed. Your job is to
+              read the tunnel ahead, move toward a safe surface, and jump at the
+              right moment.
+            </p>
 
-          {/* ── YouTube Gameplay Video ── */}
+            <ol className="mt-7 grid gap-4 md:grid-cols-3">
+              {[
+                {
+                  title: "Scan ahead",
+                  text: "Look past your runner for gaps, lasers, and pale-blue tiles. A safe route may continue onto a wall.",
+                },
+                {
+                  title: "Move early",
+                  text: "Use left or right before an obstacle reaches you. Last-second direction changes are much harder to control.",
+                },
+                {
+                  title: "Time the jump",
+                  text: "Jump once you have a clear landing. Repeated jumps make it harder to adjust your position in the air.",
+                },
+              ].map((step, index) => (
+                <li
+                  key={step.title}
+                  className="rounded-2xl bg-slate-900 p-6 text-slate-200"
+                >
+                  <span className="text-sm font-extrabold text-cyan-300">
+                    0{index + 1}
+                  </span>
+                  <h3 className="mt-3 font-heading text-xl font-bold text-white">
+                    {step.title}
+                  </h3>
+                  <p className="mt-2 text-sm leading-6 text-slate-300">
+                    {step.text}
+                  </p>
+                </li>
+              ))}
+            </ol>
+          </section>
+
+          <section
+            id="controls"
+            className="scroll-mt-24 rounded-3xl border border-cyan-100 bg-cyan-50/70 p-6 sm:p-8"
+            aria-labelledby="controls-title"
+          >
+            <h2
+              id="controls-title"
+              className="font-heading text-2xl font-extrabold text-text-dark"
+            >
+              Electron Dash controls
+            </h2>
+            <div className="mt-6 grid gap-5 sm:grid-cols-2">
+              <div className="rounded-2xl bg-white p-5 shadow-sm">
+                <p className="font-heading font-bold text-slate-900">
+                  Desktop
+                </p>
+                <dl className="mt-4 space-y-3 text-sm">
+                  <div className="flex items-start justify-between gap-5">
+                    <dt className="text-slate-600">Move left or right</dt>
+                    <dd className="text-right font-bold text-slate-900">
+                      ← → or A / D
+                    </dd>
+                  </div>
+                  <div className="flex items-start justify-between gap-5">
+                    <dt className="text-slate-600">Jump</dt>
+                    <dd className="text-right font-bold text-slate-900">
+                      ↑, W, or Space
+                    </dd>
+                  </div>
+                </dl>
+              </div>
+
+              <div className="rounded-2xl bg-white p-5 shadow-sm">
+                <p className="font-heading font-bold text-slate-900">
+                  Phone or tablet
+                </p>
+                <p className="mt-4 text-sm leading-6 text-slate-600">
+                  Use the left and right arrow buttons to move. Tap the up arrow
+                  to jump. Landscape orientation gives the game more room, and
+                  fullscreen mode keeps the controls easier to see.
+                </p>
+              </div>
+            </div>
+          </section>
+
+          <section aria-labelledby="tips-title">
+            <p className="mb-2 text-sm font-bold uppercase tracking-[0.16em] text-primary">
+              Better runs
+            </p>
+            <h2
+              id="tips-title"
+              className="font-heading text-3xl font-extrabold tracking-tight text-text-dark"
+            >
+              Useful tips that make a difference
+            </h2>
+            <div className="mt-6 grid gap-x-8 gap-y-6 sm:grid-cols-2">
+              {[
+                {
+                  title: "Use the walls",
+                  text: "The floor is not always the safest line. Start moving sideways early and let the tunnel carry you onto a wall.",
+                },
+                {
+                  title: "Treat blue tiles as temporary",
+                  text: "Light-blue sections drop after you run over them. Keep moving and avoid planning your next landing on the same tile.",
+                },
+                {
+                  title: "Do not chase every heart",
+                  text: "Extra lives are valuable, but a heart placed behind a laser or wide gap may cost the life you were trying to gain.",
+                },
+                {
+                  title: "Use the recovery window",
+                  text: "After losing a life, the brief protection period is a chance to steer back toward a solid, central part of the tunnel.",
+                },
+              ].map((tip) => (
+                <div key={tip.title} className="flex gap-4">
+                  <span
+                    className="mt-1 h-2.5 w-2.5 flex-none rounded-full bg-cyan-500 shadow-[0_0_12px_rgba(6,182,212,0.75)]"
+                    aria-hidden="true"
+                  />
+                  <div>
+                    <h3 className="font-heading text-lg font-bold text-slate-900">
+                      {tip.title}
+                    </h3>
+                    <p className="mt-1 text-sm leading-6 text-slate-600">
+                      {tip.text}
+                    </p>
+                  </div>
+                </div>
+              ))}
+            </div>
+          </section>
+
+          <figure>
+            <Image
+              src="/electrondash-desc-2.png"
+              alt="Electron Dash gameplay with an astronaut running beside an opening in the tunnel"
+              width={1770}
+              height={946}
+              sizes="(max-width: 896px) 100vw, 896px"
+              className="h-auto w-full rounded-2xl border border-slate-200 shadow-lg shadow-slate-300/40"
+            />
+            <figcaption className="mt-3 text-center text-sm text-slate-500">
+              Watch the full width of the tunnel: openings can appear on the
+              floor or either side.
+            </figcaption>
+          </figure>
+
+          <section
+            id="faq"
+            className="scroll-mt-24"
+            aria-labelledby="faq-title"
+          >
+            <p className="mb-2 text-sm font-bold uppercase tracking-[0.16em] text-primary">
+              Common questions
+            </p>
+            <h2
+              id="faq-title"
+              className="font-heading text-3xl font-extrabold tracking-tight text-text-dark"
+            >
+              Electron Dash FAQ
+            </h2>
+            <div className="mt-6 divide-y divide-slate-200 rounded-2xl border border-slate-200 bg-white px-5 sm:px-7">
+              {faqs.map((item, index) => (
+                <details key={item.question} className="group py-5">
+                  <summary className="flex cursor-pointer list-none items-center justify-between gap-5 font-heading font-bold text-slate-900">
+                    {item.question}
+                    <span
+                      className="flex h-7 w-7 flex-none items-center justify-center rounded-full bg-slate-100 text-lg text-primary transition-transform group-open:rotate-45"
+                      aria-hidden="true"
+                    >
+                      +
+                    </span>
+                  </summary>
+                  <p className="max-w-3xl pt-3 text-sm leading-7 text-slate-600">
+                    {item.answer}
+                  </p>
+                </details>
+              ))}
+            </div>
+          </section>
+
           {siteConfig.game.youtubeVideoId && (
-            <section>
-              <h2 className="font-heading font-bold text-2xl text-text-dark mb-4">
-                Watch Gameplay
+            <section aria-labelledby="gameplay-video-title">
+              <h2
+                id="gameplay-video-title"
+                className="font-heading text-3xl font-extrabold tracking-tight text-text-dark"
+              >
+                Watch an Electron Dash run
               </h2>
-              <div className="aspect-video rounded-xl overflow-hidden shadow-md bg-gray-100">
+              <p className="mt-3 text-slate-600">
+                A short gameplay video can help with wall movement and jump
+                timing before your first run.
+              </p>
+              <div className="mt-6 aspect-video overflow-hidden rounded-2xl border border-slate-200 bg-slate-900 shadow-lg">
                 <iframe
-                  src={`https://www.youtube.com/embed/${siteConfig.game.youtubeVideoId}`}
-                  className="w-full h-full"
+                  src={`https://www.youtube-nocookie.com/embed/${siteConfig.game.youtubeVideoId}`}
+                  className="h-full w-full"
                   allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
                   allowFullScreen
+                  loading="lazy"
+                  referrerPolicy="strict-origin-when-cross-origin"
                   title="Electron Dash gameplay video"
                 />
               </div>
             </section>
           )}
+
+          <aside className="rounded-2xl border border-slate-200 bg-white p-5 text-sm leading-6 text-slate-600">
+            <p>
+              Gameplay details were checked against the current instructions on{" "}
+              <a
+                href="https://www.coolmathgames.com/0-electron-dash"
+                target="_blank"
+                rel="noopener noreferrer"
+                className="font-semibold text-primary underline decoration-cyan-300 underline-offset-4"
+              >
+                Coolmath Games
+              </a>{" "}
+              and{" "}
+              <a
+                href="https://www.mathplayground.com/pg_electron_dash.html"
+                target="_blank"
+                rel="noopener noreferrer"
+                className="font-semibold text-primary underline decoration-cyan-300 underline-offset-4"
+              >
+                Math Playground
+              </a>
+              . This is an independent guide and is not an official page for
+              either publisher.
+            </p>
+          </aside>
         </article>
 
-        {/* Bottom banner ad */}
         <AdSlot type="banner" className="my-8" />
       </SidebarLayout>
     </>

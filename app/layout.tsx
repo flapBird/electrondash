@@ -28,9 +28,9 @@ export default function RootLayout({
 }) {
   return (
     <html lang="en" className={`${nunito.variable} ${quicksand.variable}`}>
-      <body className="font-body text-text-dark antialiased">
+      <body className="flex min-h-screen flex-col font-body text-text-dark antialiased">
         <Header />
-        <main>{children}</main>
+        <main className="flex-1">{children}</main>
         <Footer />
 
         {/* Google Analytics 4 — only injected when gaId is set */}
@@ -52,7 +52,7 @@ export default function RootLayout({
         )}
 
         {/* Google AdSense — only injected when clientId is set */}
-        {siteConfig.ads.clientId && (
+        {siteConfig.ads.enabled && siteConfig.ads.clientId && (
           <Script
             async
             src={`https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=${siteConfig.ads.clientId}`}

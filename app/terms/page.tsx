@@ -2,7 +2,12 @@ import { buildMetadata } from "@/lib/seo";
 import { siteConfig } from "@/lib/site.config";
 import LegalPage from "@/components/LegalPage";
 
-export const metadata = buildMetadata({ title: "Terms & Conditions", path: "/terms" });
+export const metadata = buildMetadata({
+  title: "Terms & Conditions",
+  description:
+    "Read the terms for using the Electron Dash website and its third-party embedded game content.",
+  path: "/terms",
+});
 
 export default function TermsPage() {
   return (

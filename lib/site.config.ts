@@ -18,10 +18,10 @@ export const siteConfig = {
      * Describe what the game is and that it's free to play online.
      */
     description:
-      "Play Electron Dash, a free online reflex game. Navigate a glowing electron through a neon obstacle course at electrondash.site — no download required.",
+      "Play Electron Dash online for free. Run through a space tunnel, jump over gaps, dodge lasers, and collect extra lives — no download required.",
 
     /** Comma-separated keywords for the homepage. */
-    keywords: ["electron dash", "electron dash game", "play electron dash", "electron dash online", "free reflex game", "neon endless runner", "coolmath games", "browser game"],
+    keywords: ["electron dash", "electron dash game", "play electron dash online", "electron dash controls", "free endless runner", "space tunnel game"],
 
     /** Social sharing image, 1200x630px. Replace /public/og-image.png. */
     ogImage: "/og-image.png",
@@ -44,13 +44,14 @@ export const siteConfig = {
     aspectRatio: "16 / 9",
 
     /** Cover image shown on the idle/launch screen. Replace /public/cover.jpg. */
-    coverImage: "/electrondash-cover.jpeg",
+    coverImage: "/electrondash-cover.png",
 
     /** Age rating for the game. */
     ageRating: "Everyone",
 
     /** Attribution displayed below the game and in the footer. */
-    sourceAttribution: "Game by Coolmath Games",
+    sourceAttribution:
+      "Electron Dash is also available on Coolmath Games and Math Playground",
 
     /** YouTube video ID for the gameplay trailer / walkthrough. Leave empty to hide the video section. */
     youtubeVideoId: "gpKUKoEQZOE",

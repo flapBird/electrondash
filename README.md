@@ -10,11 +10,11 @@ The project was originally scaffolded from a generic game-site template and cust
 
 ## Game
 
-**Electron Dash** is a reflex-based endless runner. You control an electron climbing upward through a cylindrical 3D tunnel. The platform beneath you crumbles after a few seconds, so you have to rotate left and right around the tube, find the next solid ledge, and jump — all while the speed keeps climbing. No levels, no power-ups, just you and the void.
+**Electron Dash** is a reflex-based endless runner set inside a neon space tunnel. The runner moves forward automatically while you steer across the floor and walls, jump over gaps, avoid lasers and falling tiles, and collect red hearts for extra lives.
 
 - [Play the game](https://electrondash.site/)
-- Controls: arrow keys (or A/D) to rotate, Up/Space to jump
-- Touch: tap left/right to rotate, tap to jump
+- Controls: Left/Right or A/D to move, Up/W/Space to jump
+- Touch: use the on-screen left, right, and up arrow controls
 
 ## Tech stack
 
@@ -22,7 +22,7 @@ The project was originally scaffolded from a generic game-site template and cust
 - **Language**: TypeScript
 - **Styling**: Tailwind CSS
 - **Fonts**: Nunito (headings) + Quicksand (body), served via next/font
-- **Deployment**: Static export, ready for Vercel or any static host
+- **Deployment**: Prerendered Next.js routes, ready for Vercel or a compatible Next.js host
 
 ## Project structure
 
@@ -81,7 +81,10 @@ To build for production:
 npm run build
 ```
 
-The output is fully static and can be deployed to any static host or Vercel.
+The current routes are prerendered and can be deployed to Vercel or another
+compatible Next.js host. To generate a standalone static export for a basic file
+host, add `output: "export"` to `next.config.js` and verify the embed behavior in
+that environment.
 
 ## License
 

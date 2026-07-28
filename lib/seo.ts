@@ -19,8 +19,10 @@ export function buildMetadata({ title, description, path }: PageSeoInput): Metad
       : siteConfig.siteName;
   const pageDescription = description ?? siteConfig.seo.description;
   const canonical = `${siteConfig.domain}${path}`;
+  const socialImage = `${siteConfig.domain}${siteConfig.seo.ogImage}`;
 
   return {
+    metadataBase: new URL(siteConfig.domain),
     title: pageTitle,
     description: pageDescription,
     alternates: {
@@ -31,9 +33,10 @@ export function buildMetadata({ title, description, path }: PageSeoInput): Metad
       description: pageDescription,
       url: canonical,
       siteName: siteConfig.siteName,
+      locale: "en_US",
       images: [
         {
-          url: siteConfig.seo.ogImage,
+          url: socialImage,
           width: 1200,
           height: 630,
         },
@@ -44,7 +47,7 @@ export function buildMetadata({ title, description, path }: PageSeoInput): Metad
       card: "summary_large_image",
       title: pageTitle,
       description: pageDescription,
-      images: [siteConfig.seo.ogImage],
+      images: [socialImage],
     },
     // Google Search Console verification
     ...(siteConfig.analytics.gscVerification
@@ -57,6 +60,17 @@ export function buildMetadata({ title, description, path }: PageSeoInput): Metad
         { url: "/favicon.png", type: "image/png" },
         { url: "/favicon.svg", type: "image/svg+xml" },
       ],
+    },
+    robots: {
+      index: true,
+      follow: true,
+      googleBot: {
+        index: true,
+        follow: true,
+        "max-image-preview": "large",
+        "max-snippet": -1,
+        "max-video-preview": -1,
+      },
     },
   };
 }
@@ -73,8 +87,29 @@ export function buildVideoGameJsonLd() {
     genre: siteConfig.game.genre,
     applicationCategory: "Game",
     operatingSystem: "Web Browser",
+    gamePlatform: ["Desktop browser", "Mobile browser"],
+    playMode: "SinglePlayer",
+    inLanguage: "en",
+    isAccessibleForFree: true,
     description: siteConfig.seo.description,
     url: siteConfig.domain,
     image: `${siteConfig.domain}${siteConfig.seo.ogImage}`,
+  };
+}
+
+export function buildFaqJsonLd(
+  items: ReadonlyArray<{ question: string; answer: string }>,
+) {
+  return {
+    "@context": "https://schema.org",
+    "@type": "FAQPage",
+    mainEntity: items.map((item) => ({
+      "@type": "Question",
+      name: item.question,
+      acceptedAnswer: {
+        "@type": "Answer",
+        text: item.answer,
+      },
+    })),
   };
 }
