@@ -5,8 +5,9 @@ import Hero from "@/components/Hero";
 import SidebarLayout from "@/components/SidebarLayout";
 import SchemaMarkup from "@/components/SchemaMarkup";
 import AdSlot from "@/components/AdSlot";
+import HomepageCanonical from "@/components/HomepageCanonical";
 
-export const metadata = buildMetadata({ path: "/" });
+export const metadata = buildMetadata({ path: "/", includeCanonical: false });
 
 const faqs = [
   {
@@ -62,6 +63,7 @@ const quickFacts = [
 export default function HomePage() {
   return (
     <>
+      <HomepageCanonical href={`${siteConfig.domain}/`} />
       <SchemaMarkup jsonLd={buildVideoGameJsonLd()} />
       <SchemaMarkup jsonLd={buildFaqJsonLd(faqs)} />
       <Hero />

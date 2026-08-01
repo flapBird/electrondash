@@ -19,7 +19,10 @@ const quicksand = Quicksand({
   variable: "--font-quicksand",
 });
 
-export const metadata: Metadata = buildMetadata({ path: "/" });
+export const metadata: Metadata = buildMetadata({
+  path: "/",
+  includeCanonical: false,
+});
 
 export default function RootLayout({
   children,

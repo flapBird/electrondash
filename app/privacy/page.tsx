@@ -1,5 +1,6 @@
 import { buildMetadata } from "@/lib/seo";
 import { siteConfig } from "@/lib/site.config";
+import EmailAddress from "@/components/EmailAddress";
 import LegalPage from "@/components/LegalPage";
 
 export const metadata = buildMetadata({
@@ -114,12 +115,10 @@ export default function PrivacyPage() {
         </h2>
         <p>
           For questions about this Privacy Policy, contact us at{" "}
-          <a
-            href={`mailto:${siteConfig.contact.email}`}
+          <EmailAddress
+            email={siteConfig.contact.email}
             className="text-primary underline"
-          >
-            {siteConfig.contact.email}
-          </a>
+          />
           .
         </p>
       </section>

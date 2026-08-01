@@ -8,9 +8,16 @@ interface PageSeoInput {
   description?: string;
   /** Path starting with '/', e.g. '/', '/about'. */
   path: string;
+  /** Set false when the page supplies a custom canonical link. */
+  includeCanonical?: boolean;
 }
 
-export function buildMetadata({ title, description, path }: PageSeoInput): Metadata {
+export function buildMetadata({
+  title,
+  description,
+  path,
+  includeCanonical = true,
+}: PageSeoInput): Metadata {
   const isHome = path === "/";
   const pageTitle = isHome
     ? siteConfig.seo.title
@@ -18,16 +25,17 @@ export function buildMetadata({ title, description, path }: PageSeoInput): Metad
       ? `${title} | ${siteConfig.siteName}`
       : siteConfig.siteName;
   const pageDescription = description ?? siteConfig.seo.description;
-  const canonical = `${siteConfig.domain}${path}`;
+  // Keep the homepage canonical aligned with its slash URL while preserving
+  // the existing no-slash format for inner pages.
+  const canonicalPath = isHome ? "/" : path.replace(/\/+$/, "");
+  const canonical = `${siteConfig.domain}${canonicalPath}`;
   const socialImage = `${siteConfig.domain}${siteConfig.seo.ogImage}`;
 
   return {
     metadataBase: new URL(siteConfig.domain),
     title: pageTitle,
     description: pageDescription,
-    alternates: {
-      canonical,
-    },
+    ...(includeCanonical ? { alternates: { canonical } } : {}),
     openGraph: {
       title: pageTitle,
       description: pageDescription,
