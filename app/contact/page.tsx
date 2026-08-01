@@ -1,5 +1,6 @@
 import { buildMetadata } from "@/lib/seo";
 import { siteConfig } from "@/lib/site.config";
+import EmailAddress from "@/components/EmailAddress";
 
 export const metadata = buildMetadata({
   title: "Contact",
@@ -25,12 +26,10 @@ export default function ContactPage() {
 
       <div className="mt-8 rounded-2xl border border-cyan-100 bg-cyan-50 p-6">
         <p className="mb-2 text-sm font-semibold text-slate-600">Email</p>
-        <a
-          href={`mailto:${siteConfig.contact.email}`}
+        <EmailAddress
+          email={siteConfig.contact.email}
           className="break-all font-heading text-lg font-bold text-primary underline decoration-cyan-300 underline-offset-4"
-        >
-          {siteConfig.contact.email}
-        </a>
+        />
         <p className="mt-4 text-sm leading-6 text-slate-600">
           For a game issue, include your device, browser, and a short description
           of what happened. Please do not send passwords or other sensitive
